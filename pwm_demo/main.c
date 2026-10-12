@@ -14,25 +14,37 @@ int main(void) {
   FontxFile fx16G[2];
   uint8_t buffer_fx16G[FontxGlyphBufSize];
   uint8_t fontWidth_fx16G, fontHeight_fx16G;
-  InitFontx(fx16G, "../../../fonts/ILMH16XB.FNT", "");
+  InitFontx(fx16G, "/home/student/libpynq-5EWC0-2023-v0.2.6/fonts/ILGH24XB.FNT", "");
   GetFontx(fx16G, 0, buffer_fx16G, &fontWidth_fx16G, &fontHeight_fx16G);
   displaySetFontDirection(&display, TEXT_DIRECTION0);
-  uint8_t text[] = "Idle";
-  displayDrawString(&display, fx16G, 20, fontHeight_fx16G * 7, text, RGB_WHITE);
+  uint8_t duty_text[15] = "Duty cycle: - ";
+  displayDrawString(&display, fx16G, 28, fontHeight_fx16G * 4, duty_text, RGB_WHITE);
 
   while (1) {
     if (get_button_state(0)) break;
-    for (float i = 0.1; i <= 0.9; i += 0.2) {
-      printf("Bomboclat: %.0f\n", i * 100);
-      sleep_msec(100);
-      pwm_set_duty_cycle(PWM0, i * SIGNAL_PERIOD);
+    for (int i = 1; i <= 9; i += 2) {
+      if (get_button_state(0)) break;
+      sleep_msec(500);
+      pwm_set_duty_cycle(PWM0, (float)i / 10 * SIGNAL_PERIOD);
+      displayDrawString(&display, fx16G, 28, fontHeight_fx16G * 4, duty_text, RGB_PURPLE);
+      duty_text[12] = '0' + i;
+      duty_text[13] = '0';
+      displayDrawString(&display, fx16G, 28, fontHeight_fx16G * 4, duty_text, RGB_WHITE);
     }
-    for (float i = 0.9; i >= 0.1; i -= 0.2) {
-      sleep_msec(100);
-      pwm_set_duty_cycle(PWM0, i * SIGNAL_PERIOD);
-      printf("Micheal: %.0f\n", i * 100);
+    if (get_button_state(0)) break;
+    for (int i = 9; i >= 1; i -= 2) {
+      if (get_button_state(0)) break;
+      sleep_msec(500);
+      pwm_set_duty_cycle(PWM0, (float)i / 10 * SIGNAL_PERIOD);
+      displayDrawString(&display, fx16G, 28, fontHeight_fx16G * 4, duty_text, RGB_PURPLE);
+      duty_text[12] = '0' + i;
+      duty_text[13] = '0';
+      displayDrawString(&display, fx16G, 28, fontHeight_fx16G * 4, duty_text, RGB_WHITE);
     }
   }
+  displayFillScreen(&display, RGB_RED);
+  uint8_t done_text[] = "Done";
+  displayDrawString(&display, fx16G, 28, fontHeight_fx16G * 4, done_text, RGB_WHITE);
   printf("Exploding...\n");
   pwm_destroy(PWM0);
   buttons_destroy();

@@ -15,7 +15,7 @@ int main(void) {
   FontxFile fx16G[2];
   InitFontx(fx16G, "/boot/ILGH16XB.FNT", "");
   GetFontx(fx16G, 0, buffer_fx16G, &fontWidth_fx16G, &fontHeight_fx16G);
-
+  
   char *lineptr = NULL;
   size_t line_size = 0;
   size_t i = 0;
