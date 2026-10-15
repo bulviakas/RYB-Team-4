@@ -11,11 +11,11 @@ https://pynq.tue.nl/general/internet/
 ```
 cd libpynq-5EWC0-2023-v0.2.6/applications/
 git init -b main
+git add .
+git commit -m "Add local files"
 git remote add origin https://github.com/bulviakas/RYB-Team-4.git
 git fetch origin
-git reset origin/main
-git branch --set-upstream-to=origin/main main
-git config pull.rebase true
+git merge origin/main --allow-unrelated-histories
 ```
 ### Average daily workflow after making changes
 ```
