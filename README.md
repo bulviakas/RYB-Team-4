@@ -10,17 +10,19 @@ https://pynq.tue.nl/general/internet/
 ### 3. Setup the repo on the PYNQ
 ```
 cd libpynq-5EWC0-2023-v0.2.6/applications/
-git init
-git config --global user.name "<Your Name>"
-git config --global user.email "<You Email>"
-git add .
-git commit -m "Marge commit"
+git init -b main
 git remote add origin https://github.com/bulviakas/RYB-Team-4.git
-git pull origin main
-git config pull.rebase false
-git pull origin main --allow-unrelated-histories
-git config push.default upstream
-git push --set-upstream origin master
-// You'll probably have to wait until I approve the pull request
-git checkout main
+git fetch origin
+git reset origin/main
+git branch --set-upstream-to=origin/main main
+git config pull.rebase true
+```
+### Average daily workflow after making changes
+```
+git pull                  # When you start working - get the latest code from everyone
+...
+git add .
+git commit -m "<Description of changes made>"
+git pull                  # In case anybody pushed new code during your work
+git push
 ```

@@ -11,12 +11,14 @@ int main(void) {
   pwm_init(PWM0,SIGNAL_PERIOD);
   pwm_set_duty_cycle(PWM0, 0.1 * SIGNAL_PERIOD);
 
+  printf("Display and PWN init done\n");
   FontxFile fx16G[2];
   uint8_t buffer_fx16G[FontxGlyphBufSize];
   uint8_t fontWidth_fx16G, fontHeight_fx16G;
   InitFontx(fx16G, "/home/student/libpynq-5EWC0-2023-v0.2.6/fonts/ILGH24XB.FNT", "");
   GetFontx(fx16G, 0, buffer_fx16G, &fontWidth_fx16G, &fontHeight_fx16G);
   displaySetFontDirection(&display, TEXT_DIRECTION0);
+  printf("Font loaded\n");
   uint8_t duty_text[15] = "Duty cycle: - ";
   displayDrawString(&display, fx16G, 28, fontHeight_fx16G * 4, duty_text, RGB_WHITE);
 
